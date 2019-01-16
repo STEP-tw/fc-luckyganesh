@@ -1,0 +1,22 @@
+.title {
+  text-align: right;
+  margin-right: 200px;
+  color: orange;
+}
+
+#flowers {
+  height:520px;
+  width: 870px;
+}
+
+.line {
+  background: black;
+  height: 2px;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
