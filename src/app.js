@@ -1,7 +1,10 @@
 const fs = require('fs');
 
-const SERVER_ERROR = '500: Internal server Error';
-const FILE_ERROR = '400 : file not found';
+const Express = require('./express').Express;
+
+const FILE_ERROR = '400 : not found';
+
+const app = new Express();
 
 const send = function (res, statusCode, content) {
   res.statusCode = statusCode;
@@ -10,42 +13,49 @@ const send = function (res, statusCode, content) {
   return;
 }
 
-const giveResponse = function(res,err,content){
-  let statusCode = 500;
-  let data = SERVER_ERROR;
+const giveResponse = function (res, err, content) {
   if (!err) {
-    statusCode = 200;
-    data = content;
+    send(res, 200, content);
+    return;
   }
-  if (err != null) {
-    statusCode = 400;
-    data = FILE_ERROR;
-  }
-  send(res,statusCode,data);
+  send(res, 404, FILE_ERROR)
   return;
 }
 
-const readFileContent = function (res, fileName) {
-  fs.readFile(fileName, giveResponse.bind(null,res));
+const serveFileContent = function (res, fileName) {
+  fs.readFile(fileName, giveResponse.bind(null, res));
   return;
 }
 
-const defaultPaths = {
-  '/' : "/index.html"
+const logRequest = function(req,res,next){
+  console.log(req.method,req.url);
+  next();
 }
 
-const resolveFileName = function (url) {
-  let path = url;
-  path = defaultPaths[url] || url;
-  path = "./html_page" + path;
-  return path;
+const sendNotFound = function(req,res){
+  send(res,404,FILE_ERROR);
 }
 
-const app = (req, res) => {
+const resolveFileName = function(path){
+  if(path == "/"){
+    path = '/index.html';
+  }
+  return `./public${path}`
+}
+
+const serveFile = function(req,res){
   const path = resolveFileName(req.url);
-  readFileContent(res, path);
-};
+  serveFileContent(res,path);
+}
 
+app.use(logRequest);
+app.get('/',serveFile);
+app.get('/favicon.ico',serveFile);
+app.get('/images/freshorigins.jpg',serveFile);
+app.get('/images/animated-flower-image-0021.gif',serveFile);
+app.get('/main.js',serveFile);
+app.get('/style.css',serveFile);
+app.use(sendNotFound);
 // Export a function that can act as a handler
 
-module.exports = app;
+module.exports = app.requestHandler.bind(app);
