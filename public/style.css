@@ -16,9 +16,13 @@
   margin:10px;
 }
 
-.image {
+.image1 {
   height: 750px;
   width: 500px;
+}
+.image2 {
+  height: 500px;
+  width: 800px;
 }
 
 .book {

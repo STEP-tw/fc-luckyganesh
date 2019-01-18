@@ -118,9 +118,12 @@ app.get('/index.html',serveFile);
 app.get('/favicon.ico', serveFile);
 app.get('/images/freshorigins.jpg', serveFile);
 app.get('/Abeliophyllum.pdf',serveFile)
+app.get('/Agerantum.pdf',serveFile)
 app.get('/images/animated-flower-image-0021.gif', serveFile);
 app.get('/main.js', serveFile);
 app.get('/style.css', serveFile);
+app.get('/agerantum.html',serveFile);
+app.get('/images/agerantum.jpg',serveFile);
 app.get('/images/abeliophyllum.jpg',serveFile);
 app.get('/abeliophyllum.html',serveFile);
 app.get('/guest_book.html', serveGuestBook);
