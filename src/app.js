@@ -6,6 +6,19 @@ const FILE_ERROR = '400 : not found';
 
 const app = new Express();
 
+const { Comments } = require('./comment');
+
+const comments = new Comments();
+
+fs.readFile('./src/commenters_data.json',(err,data) => {
+  if(err){
+    console.log(err);
+    return;
+  } 
+  data = JSON.parse(data);
+  data.forEach(comment => comments.addComment(comment));
+});
+
 const send = function (res, statusCode, content) {
   res.statusCode = statusCode;
   res.write(content);
@@ -73,10 +86,9 @@ const addHtmlFormat = function (content) {
   return content;
 }
 
-const readComments = function (commentData) {
-  let html = ""
-  commentData = '[' + commentData.slice(0, -1) + ']';
-  commentData = JSON.parse(commentData).filter(x => x !== "");
+const readComments = function (comments) {
+  let html = "";
+  commentData = comments.getComments();
   commentData.forEach(x => { html = addHtmlFormat(x) + html });
   return html;
 }
@@ -84,22 +96,19 @@ const readComments = function (commentData) {
 const serveGuestBook = function (req, res) {
   fs.readFile('./public/guest_book.html', (err, data) => {
     let html = data;
-    fs.readFile('./src/commenters_data.txt', (err, data) => {
-      let content = `<tbody>${readComments(data)}</tbody>`;
-      html += content;
-      send(res, 200, html);
-    });
+    html += readComments(comments);
+    send(res,200,html);
   })
 }
 
 const uploadData = function (req, res) {
-  let contentToAdd = req.body;
-  contentToAdd.date =new Date();
-  contentToAdd = JSON.stringify(contentToAdd) + ","; 
-  fs.appendFile('./src/commenters_data.txt',contentToAdd,(err)=>{
-    if(err) {console.log(err); return;};
-    serveGuestBook(req,res);
+  let comment = req.body;
+  comment.date = new Date().toLocaleString();
+  comments.addComment(comment);
+  fs.writeFile('./src/commenters_data.json', comments.toString() , (err) => {
+    if (err) { console.log(err); return; };
   })
+  serveGuestBook(req, res);
 }
 
 app.use(logRequest);
@@ -111,7 +120,7 @@ app.get('/images/animated-flower-image-0021.gif', serveFile);
 app.get('/main.js', serveFile);
 app.get('/style.css', serveFile);
 app.get('/guest_book.html', serveGuestBook);
-app.post('/upload_data', uploadData);
+app.post('/guest_book.html', uploadData);
 app.use(sendNotFound);
 // Export a function that can act as a handler
 

@@ -8,14 +8,14 @@
 <body>
   <h1 style="text-align:center;color: orange"><a href="/">
       <<</a> Guest Book</h1> <h1>Leave a comment</h1>
-  <form method="POST" action="upload_data">
+  <form method="POST" action="/guest_book.html">
     <p>
       <label>Name : </label>
-      <input type="text" name="name">
+      <input type="text" name="name" required>
     </p>
     <p>
       <label>Comment : </label>
-      <textarea name="comment" rows="5" cols="30"></textarea>
+      <textarea name="comment" required rows="5" cols="30"></textarea>
     </p>
     <input style="background:rgb(204, 182, 182);font-size: 15px;" type="submit" value="Submit">
   </form>
