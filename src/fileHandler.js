@@ -30,7 +30,6 @@ const serveFile = function (fs, req, res) {
 
 const serveFileContent = function (fs, res, fileName) {
   fs.readFile(fileName, sendResponse.bind(null, res));
-  //SIMPLY PASS TWO ARGS
   return;
 }
 
