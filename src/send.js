@@ -1,4 +1,4 @@
-const FILE_ERROR = '400 : not found';
+const { FILE_ERROR } = require('./constants.js')
 
 const send = function (res, statusCode, content) {
   res.statusCode = statusCode;

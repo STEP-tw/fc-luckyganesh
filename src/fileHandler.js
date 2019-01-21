@@ -1,9 +1,11 @@
-const { readComments, resolveFileName } = require('./utils.js');
+const { UTILS, SEND_HANDLER, GUEST_BOOK, COMMENTS_FILE } = require('./constants.js');
 
-const { send, sendNotFound, sendResponse } = require('./send.js');
+const { readComments, resolveFileName } = require(UTILS);
 
-const serveGuestBook = function (fs,comments, req, res) {
-  fs.readFile('./public/guest_book.html', (err, data) => {
+const { send, sendNotFound, sendResponse } = require(SEND_HANDLER);
+
+const serveGuestBook = function (fs, comments, req, res) {
+  fs.readFile(GUEST_BOOK, (err, data) => {
     if (err) {
       sendNotFound(req, res);
     }
@@ -13,11 +15,11 @@ const serveGuestBook = function (fs,comments, req, res) {
   })
 }
 
-const uploadData = function (fs,comments, req, res) {
+const uploadData = function (fs, comments, req, res) {
   let comment = req.body;
   comment.date = new Date();
   comments.addComment(comment);
-  fs.writeFile('./src/commenters_data.json', comments.toString(), (err) => {
+  fs.writeFile(COMMENTS_FILE, comments.toString(), (err) => {
     if (err) { console.log(err); return; };
   })
   serveGuestBook(fs, comments, req, res);
