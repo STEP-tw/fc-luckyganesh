@@ -11,6 +11,9 @@ class Comments{
   toString(){
     return JSON.stringify(this.comments);
   }
+  addMultipleComments(comments){
+    return this.comments.concat(comments);
+  }
 }
 
 module.exports = {
