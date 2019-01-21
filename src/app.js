@@ -14,9 +14,7 @@ const { logRequest, readBody } = require('./utils.js');
 
 const readCommentsJson = function () {
   const commentsFile = './src/commenters_data.json';
-  console.log('hello')
   const exists = fs.existsSync(commentsFile);
-  console.log(exists)
   if (!exists) {
     fs.writeFileSync(commentsFile,'[]','utf8');
   }
