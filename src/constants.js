@@ -14,6 +14,22 @@ const FILE_ERROR = '400 : not found';
 const ENCODING_FORMAT = 'utf8';
 const EQUALS_SYMBOL = "=";
 const ARGS_SEPARATOR = '&';
+const MIME_TEXT_PLAIN = 'text/plain';
+const MIME_TYPES = {
+  css: 'text/css',
+  html: 'text/html',
+  js: 'text/javascript',
+  csv: 'text/csv',
+  gif: 'image/gif',
+  htm: 'text/html',
+  html: 'text/html',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  json: 'application/json',
+  png: 'image/png',
+  xml: 'text/xml',
+  pdf: 'application/pdf'
+};
 
 module.exports = {
   UTILS,
@@ -31,5 +47,7 @@ module.exports = {
   ENCODING_FORMAT,
   EQUALS_SYMBOL,
   ARGS_SEPARATOR,
-  SEND_HANDLER
+  SEND_HANDLER,
+  MIME_TEXT_PLAIN,
+  MIME_TYPES
 }

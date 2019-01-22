@@ -1,6 +1,7 @@
 const { FILE_ERROR } = require('./constants.js')
 
-const send = function (res, statusCode, content) {
+const send = function (res, statusCode, content,contentType) {
+  res.setHeader('Content-Type',contentType);
   res.statusCode = statusCode;
   res.write(content);
   res.end();
@@ -11,9 +12,9 @@ const sendNotFound = function (req, res) {
   send(res, 404, FILE_ERROR);
 }
 
-const sendResponse = function (res, err, content) {
+const sendResponse = function (res, contentType ,err, content) {
   if (!err) {
-    send(res, 200, content);
+    send(res, 200, content,contentType);
     return;
   }
   sendNotFound(req, res);

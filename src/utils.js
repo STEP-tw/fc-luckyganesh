@@ -1,4 +1,4 @@
-const { PARSER , DATA , END , EMPTY } = require('./constants.js')
+const { PARSER , DATA , END , EMPTY , MIME_TEXT_PLAIN, MIME_TYPES} = require('./constants.js')
 
 const { readArgs } = require(PARSER);
 
@@ -11,24 +11,21 @@ const readBody = (req, res, next) => {
   let data = EMPTY;
   req.on(DATA, chunk => data += chunk);
   req.on(END, () => {
-    req.body = readArgs(data)
+    req.body = data
     next();
   });
 }
 
-const addHtmlFormat = (content) => {
-  content = `<tr><td>${content.date.toLocaleString()}</td><td>${content.name}</td><td>${content.comment}</td></tr>`
-  return content;
-}
-
-const makeHtmlFormat = (htmlText,x) => addHtmlFormat(x) + htmlText;
-
-const readComments = (comments) => {
-  const commentData = comments.getComments();
-  return commentData.reduce( makeHtmlFormat , EMPTY );
-}
-
 const addPrefix = url => `./public${url}`;
+
+const getExtension = function(fileName) {
+  return fileName.split('.').pop();
+}
+
+const getType = function (fileName) {
+  const type = getExtension(fileName);
+  return MIME_TYPES[type] || MIME_TEXT_PLAIN;
+}
 
 const resolveFileName = (url) => {
   if (url == "/") url = '/index.html';
@@ -38,9 +35,7 @@ const resolveFileName = (url) => {
 module.exports = {
   logRequest,
   readBody,
-  addHtmlFormat,
-  readComments,
   addPrefix,
   resolveFileName,
-  makeHtmlFormat
+  getType
 }

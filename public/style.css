@@ -41,3 +41,17 @@ main {
   align-items: center;
   margin: 10px;
 }
+
+table {
+  border-collapse: collapse;
+  border:1px solid black;
+}
+
+td{
+  border:1px solid black;
+  text-align: center;
+}
+.submit{
+  background:rgb(204, 182, 182);
+  font-size: 15px;
+}

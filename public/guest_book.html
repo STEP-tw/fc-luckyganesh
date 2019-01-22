@@ -3,29 +3,35 @@
 
 <head>
   <title>Guest Book</title>
+  <script src="/guest_book.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1 style="text-align:center;color: orange"><a href="/">
+  <h1 class="heading"><a href="/">
       <<</a> Guest Book</h1> <h1>Leave a comment</h1>
-  <form method="POST" action="/guest_book.html">
+  <form onsubmit='return false' id='form'>
     <p>
       <label>Name : </label>
-      <input type="text" name="name" required>
+      <input type="text" name="name">
     </p>
     <p>
       <label>Comment : </label>
-      <textarea name="comment" required rows="5" cols="30"></textarea>
+      <textarea name="comment" rows="5" cols="30"></textarea>
     </p>
-    <input style="background:rgb(204, 182, 182);font-size: 15px;" type="submit" value="Submit">
+    <input class="submit" type="submit" value="Submit" onclick="submitForm()">
   </form>
-  <div style="border: 2px solid black"></div>
+  <div class="line"></div>
+  <h1>Comments <button id="refresh">&#x21bb</button></h1>
   <table>
   <thead>
     <td>DATETIME</td>
     <td>NAME</td>
     <td>COMMENTS_LIST</td>
   </thead>
+  <tbody id="comments">
+  </tbody>
+  </table>
 </body>
 
 </html>
