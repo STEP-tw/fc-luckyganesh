@@ -1,2 +1,3 @@
 node_modules/
 comments_data/commenters_data.json
+.nyc_output/
