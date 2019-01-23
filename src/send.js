@@ -9,10 +9,10 @@ const send = function (res, statusCode, content, contentType) {
 }
 
 const sendNotFound = function (req, res) {
-  send(res, 404, FILE_ERROR);
+  send(res, 404, FILE_ERROR,'text/plain');
 }
 
-const sendResponse = function (res, contentType, err, content) {
+const sendResponse = function (req, res, contentType, err, content) {
   if (!err) {
     send(res, 200, content, contentType);
     return;

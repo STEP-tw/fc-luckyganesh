@@ -3,6 +3,7 @@ const getCommentsId = (document) => document.getElementById('comments');
 const createElement = (document, tag) => document.createElement(tag);
 
 const format = function (comment) {
+  console.log(comment);
   const properties = [comment.date.toLocaleString(), comment.name, comment.comment];
   const makeTR = createElement(document, 'tr');
   properties.forEach(function (property) {
@@ -10,15 +11,18 @@ const format = function (comment) {
     makeTD.innerText = property;
     makeTR.appendChild(makeTD);
   });
+  console.log('one tr');
   return makeTR;
 }
 
 const loadComments = function () {
+  console.log('it came');
   fetch('/comments.json')
     .then(function (res) {
       return res.json();
     })
     .then(function (data) {
+      console.log(data);
       let html = getCommentsId(document);
       html.innerText = "";
       comments = data.slice().reverse();
@@ -35,9 +39,8 @@ const clearForm = function(form){
 }
 
 const getDetailsOfForm = function(form){
-  const name = form.name.value;
   const comment = form.comment.value;
-  return { name, comment };
+  return { comment };
 }
 
 const isNotValidForm = function(body){
@@ -47,9 +50,6 @@ const isNotValidForm = function(body){
 const submitForm = function () {
   let form = document.getElementById('form');
   const body = getDetailsOfForm(form);
-  if (isNotValidForm(body)) {
-    return;
-  }
   fetch('/uploadData',{
     method:'POST',
     body:JSON.stringify(body)
